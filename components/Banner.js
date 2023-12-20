@@ -1,10 +1,10 @@
 import { Text, View, StyleSheet } from "react-native-web";
 import tw from "twrnc";
 
-export const Banner = () => {
+export const Banner = ({ bannerName }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.bannerText}> Lightning </Text>
+      <Text style={styles.bannerText}>{bannerName}</Text>
     </View>
   );
 };

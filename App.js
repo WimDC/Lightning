@@ -4,6 +4,8 @@ import { HomeScreen } from "./screens/HomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import tw from "twrnc";
+import { NAV_HOME, NAV_ROOMS_LIST } from "./navigation_constants";
+import { RoomListScreen } from "./screens/RoomListScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +18,8 @@ export function ProvidedApp() {
   return (
     <>
       <Stack.Navigator screenOptions={screenOptions}>
-        <Stack.Screen name="home" component={HomeScreen} />
+        <Stack.Screen name={NAV_HOME} component={HomeScreen} />
+        <Stack.Screen name={NAV_ROOMS_LIST} component={RoomListScreen} />
       </Stack.Navigator>
     </>
   );
