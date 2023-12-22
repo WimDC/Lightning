@@ -28,10 +28,11 @@ export const LightControlButton = ({ lightId }) => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        logGetRequest();
+      })
       .catch((error) => console.error("Error:", error));
-
-    logGetRequest();
   };
 
   const logGetRequest = async () => {
@@ -73,6 +74,7 @@ export const LightControlButton = ({ lightId }) => {
         style={({ pressed }) => [
           styles.pressable,
           pressed && styles.pressablePressed,
+          isLightOn && styles.flashyGreen,
         ]}
         onPress={toggleLight}
       >
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
   pressable: tw`bg-blue-500 rounded-md p-2 items-center`,
   pressablePressed: tw`opacity-50`,
   buttonText: tw`text-white font-bold`,
+  flashyGreen: tw`bg-green-500`,
 });
 
 export default LightControlButton;
