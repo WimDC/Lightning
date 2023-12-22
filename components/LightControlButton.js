@@ -1,19 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import tw from "twrnc";
 
-export const LightControlButton = () => {
+export const LightControlButton = ({ lightId }) => {
   const [isLightOn, setIsLightOn] = useState(false);
   const [getAllLights, setAllLights] = useState([{}]);
-  const bridgeIp = "192.168.0.17"; // Replace with your Philips Hue Bridge IP address
-  const username = "WkIlfe6VBKQZojZ5TkHo22Dw-Tt24XsK5c69WtkA"; // Replace with your Hue API username
+  const bridgeIp = "192.168.0.17";
+  const username = "WkIlfe6VBKQZojZ5TkHo22Dw-Tt24XsK5c69WtkA";
+  console.log("lightId :", lightId);
 
   const toggleLight = () => {
-    // Update the state locally
-    setIsLightOn((prevIsLightOn) => !prevIsLightOn);
-
     // Build the URL for controlling the light
-    const lightUrl = `http://${bridgeIp}/api/${username}/lights/1/state`;
+    const lightUrl = `http://${bridgeIp}/api/${username}/lights/${lightId}/state`;
 
     // Log the constructed URL
     console.log("Light URL:", lightUrl);
@@ -52,7 +51,12 @@ export const LightControlButton = () => {
 
       // Extract uniqueids from each light
       const uniqueIds = lightsData.map((light) => light.uniqueid);
+      const lightOn = lightsData.map((light) => light.state.on);
+      // Update the state locally
+      setIsLightOn(lightOn[lightId - 1]);
+      console.log("lightOn: ", isLightOn);
       console.log("All UniqueIds:", uniqueIds);
+      console.log("IsLightOnArray: ", lightOn);
     } catch (error) {
       console.error("GET request error:", error);
     }
@@ -72,27 +76,22 @@ export const LightControlButton = () => {
         ]}
         onPress={toggleLight}
       >
-        <Text style={styles.buttonText}>
-          {isLightOn ? "Turn Off" : "Turn On"}
-        </Text>
+        <View>
+          <Text> light: {lightId}</Text>
+          <Text style={styles.buttonText}>
+            {isLightOn ? "Turn Off" : "Turn On"}
+          </Text>
+        </View>
       </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    // Add your button styles here
-  },
-  pressable: {
-    // Add your pressable styles here
-  },
-  pressablePressed: {
-    // Add your pressed styles here
-  },
-  buttonText: {
-    // Add your button text styles here
-  },
+  button: tw`rounded-md border-2 border-gray-300 p-2 m-2`,
+  pressable: tw`bg-blue-500 rounded-md p-2 items-center`,
+  pressablePressed: tw`opacity-50`,
+  buttonText: tw`text-white font-bold`,
 });
 
 export default LightControlButton;

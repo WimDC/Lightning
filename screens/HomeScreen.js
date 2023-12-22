@@ -16,7 +16,11 @@ export const HomeScreen = () => {
         ></PressableButton>
         <PressableButton buttonName={"Testknop 2"}></PressableButton>
         <PressableButton buttonName={"Testknop 3"}></PressableButton>
-        <LightControlButton />
+        <LightControlButton lightId={"1"} />
+        <LightControlButton lightId={"2"} />
+        <LightControlButton lightId={"3"} />
+        <LightControlButton lightId={"4"} />
+        <LightControlButton lightId={"5"} />
       </View>
     </View>
   );
