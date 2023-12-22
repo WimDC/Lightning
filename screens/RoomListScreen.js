@@ -10,7 +10,6 @@ import {
 import { Banner } from "../components/Banner";
 import tw from "twrnc";
 import { NAV_ROOMS_LIST } from "../navigation_constants";
-import { PressableButton } from "../components/PressableButton";
 
 export const RoomListScreen = () => {
   const [roomList, setRoomList] = useState([]);

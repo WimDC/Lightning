@@ -3,6 +3,7 @@ import { Banner } from "../components/Banner";
 import { PressableButton } from "../components/PressableButton";
 import tw from "twrnc";
 import { NAV_ROOMS_LIST } from "../navigation_constants";
+import { LightControlButton } from "../components/LightControlButton";
 
 export const HomeScreen = () => {
   return (
@@ -15,6 +16,7 @@ export const HomeScreen = () => {
         ></PressableButton>
         <PressableButton buttonName={"Testknop 2"}></PressableButton>
         <PressableButton buttonName={"Testknop 3"}></PressableButton>
+        <LightControlButton />
       </View>
     </View>
   );
