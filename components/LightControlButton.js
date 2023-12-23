@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import { Slider } from "react-native-elements";
 import tw from "twrnc";
 
 export const LightControlButton = ({ lightId }) => {
@@ -8,13 +9,12 @@ export const LightControlButton = ({ lightId }) => {
   const [getAllLights, setAllLights] = useState([{}]);
   const bridgeIp = "192.168.0.17";
   const username = "WkIlfe6VBKQZojZ5TkHo22Dw-Tt24XsK5c69WtkA";
+  const [brightness, setBrightness] = useState(100);
   console.log("lightId :", lightId);
 
   const toggleLight = () => {
     // Build the URL for controlling the light
     const lightUrl = `http://${bridgeIp}/api/${username}/lights/${lightId}/state`;
-
-    // Log the constructed URL
     console.log("Light URL:", lightUrl);
 
     // Make the HTTP request
@@ -25,13 +25,38 @@ export const LightControlButton = ({ lightId }) => {
       },
       body: JSON.stringify({
         on: !isLightOn,
+        bri: parseInt(brightness),
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        logGetRequest();
+        setTimeout(() => {
+          logGetRequest();
+        }, 1000);
       })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  const handleBrightnessChange = (value) => {
+    // Update the brightness state as the user moves the slider
+    setBrightness(value);
+
+    // Build the URL for controlling the light
+    const lightUrl = `http://${bridgeIp}/api/${username}/lights/${lightId}/state`;
+
+    // Make the HTTP request
+    fetch(lightUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        bri: parseInt(value),
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
       .catch((error) => console.error("Error:", error));
   };
 
@@ -50,51 +75,67 @@ export const LightControlButton = ({ lightId }) => {
 
       const lightsData = Object.values(response.data);
 
-      // Extract uniqueids from each light
+      // Extract info from each light
       const uniqueIds = lightsData.map((light) => light.uniqueid);
       const lightOn = lightsData.map((light) => light.state.on);
+      const brightnessLvl = lightsData.map((light) => light.state.bri);
+
       // Update the state locally
       setIsLightOn(lightOn[lightId - 1]);
+      setBrightness(brightnessLvl[lightId - 1]);
       console.log("lightOn: ", isLightOn);
       console.log("All UniqueIds:", uniqueIds);
       console.log("IsLightOnArray: ", lightOn);
+      console.log("BrightnessLvl: ", brightnessLvl);
     } catch (error) {
       console.error("GET request error:", error);
     }
   };
 
   useEffect(() => {
-    // Log the GET request when the component mounts
     logGetRequest();
   }, []);
 
   return (
-    <View style={styles.button}>
-      <Pressable
-        style={({ pressed }) => [
-          styles.pressable,
-          pressed && styles.pressablePressed,
-          isLightOn && styles.flashyGreen,
-        ]}
-        onPress={toggleLight}
-      >
-        <View>
-          <Text> light: {lightId}</Text>
+    <View style={styles.buttonContainer}>
+      <View style={styles.rowContainer}>
+        <Text style={styles.lightText}> Light: {lightId}</Text>
+        <Pressable
+          style={({ pressed }) => [
+            styles.pressable,
+            pressed && styles.pressablePressed,
+            isLightOn && styles.flashyGreen,
+          ]}
+          onPress={toggleLight}
+        >
           <Text style={styles.buttonText}>
             {isLightOn ? "Turn Off" : "Turn On"}
           </Text>
-        </View>
-      </Pressable>
+        </Pressable>
+      </View>
+      <Slider
+        style={styles.slider}
+        minimumValue={1}
+        maximumValue={254}
+        step={1}
+        value={brightness}
+        onValueChange={handleBrightnessChange}
+        thumbTintColor="#3498db"
+        minimumTrackTintColor="#3498db"
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  button: tw`rounded-md border-2 border-gray-300 p-2 m-2`,
+  buttonContainer: tw`rounded-md border-2 border-gray-300 p-2 m-2 bg-yellow-300`,
+  rowContainer: tw`flex flex-row items-center justify-between mb-2`,
+  lightText: tw`text-xl font-bold m-2`, // Adjust the font size and styling as needed
   pressable: tw`bg-blue-500 rounded-md p-2 items-center`,
   pressablePressed: tw`opacity-50`,
   buttonText: tw`text-white font-bold`,
   flashyGreen: tw`bg-green-500`,
+  slider: tw`m-2`,
 });
 
 export default LightControlButton;
