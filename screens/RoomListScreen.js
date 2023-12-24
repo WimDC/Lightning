@@ -16,6 +16,8 @@ export const RoomListScreen = () => {
   const [roomNameInput, setRoomNameInput] = useState("");
   const [roomFloorInput, setRoomFloorInput] = useState("");
 
+  useEffect(() => {});
+
   const createRoom = () => {
     if (roomNameInput === "") {
       alert("Please enter a room name");

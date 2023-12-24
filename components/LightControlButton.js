@@ -65,13 +65,17 @@ export const LightControlButton = ({ lightId }) => {
       // Set up Axios instance with custom HTTP configuration
       const api = axios.create({
         baseURL:
-          "http://192.168.0.17/api/WkIlfe6VBKQZojZ5TkHo22Dw-Tt24XsK5c69WtkA/lights/",
+          "http://192.168.0.17/api/WkIlfe6VBKQZojZ5TkHo22Dw-Tt24XsK5c69WtkA/",
       });
 
-      const response = await api.get();
+      const response = await api.get("lights");
+      const configResponse = await api.get("config");
+      const groupResponse = await api.get("groups");
       setAllLights(response.data);
       console.log("GET request response:", response.data);
       console.log("getAllLights :", getAllLights);
+      console.log("configResponse :", configResponse);
+      console.log("groupResponse :", groupResponse);
 
       const lightsData = Object.values(response.data);
 
