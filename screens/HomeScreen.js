@@ -20,7 +20,6 @@ export const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  buttonView: tw`flex-col items-center mt-4`,
   overlay: tw`flex-1 bg-opacity-20 bg-black p-4`,
   container: tw`flex-1`,
 });

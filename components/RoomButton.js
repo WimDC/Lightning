@@ -22,7 +22,7 @@ const RoomButton = ({ name, lights, constant }) => {
 
 const styles = StyleSheet.create({
   pressable: tw`flex-1`,
-  roomContainer: tw`bg-gray-100 p-4 mb-2 rounded-md flex items-center justify-between`,
+  roomContainer: tw`bg-gray-100 p-4 mb-2 mt-4 rounded-md flex items-center justify-between`,
   roomName: tw`text-lg font-semibold text-gray-800`,
 });
 
