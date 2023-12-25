@@ -1,103 +1,72 @@
 import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native-web";
+import { FlatList, StyleSheet, View } from "react-native";
 import { Banner } from "../components/Banner";
 import tw from "twrnc";
-import { NAV_ROOMS_LIST } from "../navigation_constants";
+import axios from "axios";
+import { ImageBackground } from "react-native";
+import RoomButton from "../components/RoomButton";
+import { NAV_ROOM_DETAIL } from "../navigation_constants";
 
 export const RoomListScreen = () => {
   const [roomList, setRoomList] = useState([]);
-  const [roomNameInput, setRoomNameInput] = useState("");
-  const [roomFloorInput, setRoomFloorInput] = useState("");
-
-  useEffect(() => {});
-
-  const createRoom = () => {
-    if (roomNameInput === "") {
-      alert("Please enter a room name");
-      return;
-    }
-
-    if (roomFloorInput === "") {
-      alert("Please enter a floor");
-      return;
-    }
-
-    let room = {
-      name: roomNameInput,
-      floor: roomFloorInput,
-    };
-
-    setRoomList((prevRoomList) => [...prevRoomList, room]);
-
-    setRoomNameInput("");
-    setRoomFloorInput("");
-  };
 
   useEffect(() => {
-    console.log("Updated roomList:", roomList);
-  }, [roomList]);
+    fetchGroups();
+  }, []);
 
-  const Room = ({ name, floor }) => (
-    <View style={styles.roomContainer}>
-      <Text style={styles.roomName}>{name}</Text>
-      <Text style={styles.roomFloor}>{floor}</Text>
-    </View>
-  );
+  const fetchGroups = async () => {
+    try {
+      const bridgeIp = "192.168.0.17";
+      const username = "WkIlfe6VBKQZojZ5TkHo22Dw-Tt24XsK5c69WtkA";
+
+      const response = await axios.get(
+        `http://${bridgeIp}/api/${username}/groups`
+      );
+
+      const groupsData = response.data;
+
+      const rooms = Object.values(groupsData).map((group) => ({
+        name: group.name,
+        lights: group.lights,
+      }));
+
+      setRoomList(rooms);
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
+  };
 
   return (
-    <View>
-      <Banner bannerName={NAV_ROOMS_LIST} />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Room Name"
-          onChange={(e) => setRoomNameInput(e.nativeEvent.text)}
-          value={roomNameInput}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="Floor"
-          onChange={(e) => setRoomFloorInput(e.nativeEvent.text)}
-          value={roomFloorInput}
-        />
-        <button style={styles.createButton} onClick={createRoom}>
-          Create Room
-        </button>
+    <ImageBackground
+      source={require("../images/sun.png")}
+      style={styles.container}
+    >
+      <View style={styles.overlay}>
+        <Banner bannerName="Room List" />
+        <View>
+          {roomList.length > 0 && (
+            <FlatList
+              data={roomList}
+              renderItem={({ item }) => (
+                <View style={styles.listItem}>
+                  <RoomButton
+                    name={item.name}
+                    lights={item.lights}
+                    constant={NAV_ROOM_DETAIL}
+                  />
+                </View>
+              )}
+              keyExtractor={(room) => room.name}
+            />
+          )}
+        </View>
       </View>
-      <View>
-        {roomList.length > 0 && (
-          <FlatList
-            data={roomList}
-            renderItem={({ item }) => (
-              <View style={styles.listItem}>
-                <Room name={item.name} floor={item.floor} />
-                <Pressable>
-                  <Text>Go to Room</Text>
-                </Pressable>
-              </View>
-            )}
-            keyExtractor={(room) => room.name}
-          />
-        )}
-      </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: tw`p-4`,
-  inputContainer: tw`mb-4`,
-  textInput: tw`h-8 w-40 border border-gray-400 mb-2 p-2 rounded-md`,
-  createButton: tw`bg-blue-500 text-white px-4 py-2 rounded-md`,
-  roomContainer: tw`bg-gray-100 p-4 mb-2 rounded-md flex items-center justify-between`,
-  roomName: tw`text-lg font-semibold text-gray-800`,
-  roomFloor: tw`text-sm text-gray-500`,
+  container: tw`flex-1`,
+  overlay: tw`flex-1 bg-opacity-20 bg-black p-4`,
   listItem: tw`flex-row justify-between items-center`,
 });

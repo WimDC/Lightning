@@ -1,31 +1,26 @@
-import { StyleSheet, Text, View } from "react-native-web";
+import { StyleSheet, Text, View } from "react-native";
 import { Banner } from "../components/Banner";
-import { PressableButton } from "../components/PressableButton";
 import tw from "twrnc";
 import { NAV_ROOMS_LIST } from "../navigation_constants";
-import { LightControlButton } from "../components/LightControlButton";
+import { ImageBackground } from "react-native";
+import RoomButton from "../components/RoomButton";
 
 export const HomeScreen = () => {
   return (
-    <View>
-      <Banner bannerName={"Lightning"} />
-      <View style={styles.buttonView}>
-        <PressableButton
-          buttonName={NAV_ROOMS_LIST}
-          navLink={NAV_ROOMS_LIST}
-        ></PressableButton>
-        <PressableButton buttonName={"Testknop 2"}></PressableButton>
-        <PressableButton buttonName={"Testknop 3"}></PressableButton>
-        <LightControlButton lightId={"1"} />
-        <LightControlButton lightId={"2"} />
-        <LightControlButton lightId={"3"} />
-        <LightControlButton lightId={"4"} />
-        <LightControlButton lightId={"5"} />
+    <ImageBackground
+      source={require("../images/suncolorfull.jpg")}
+      style={styles.container}
+    >
+      <View style={styles.overlay}>
+        <Banner bannerName={"Lightning"} />
+        <RoomButton name={NAV_ROOMS_LIST} constant={NAV_ROOMS_LIST} />
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   buttonView: tw`flex-col items-center mt-4`,
+  overlay: tw`flex-1 bg-opacity-20 bg-black p-4`,
+  container: tw`flex-1`,
 });

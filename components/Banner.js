@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native-web";
+import { Text, View, StyleSheet } from "react-native";
 import tw from "twrnc";
 
 export const Banner = ({ bannerName }) => {

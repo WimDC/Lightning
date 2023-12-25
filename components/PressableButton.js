@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Pressable } from "react-native";
-import { StyleSheet, Text, View } from "react-native-web";
+import { StyleSheet, Text, View } from "react-native";
 import tw from "twrnc";
 
 export const PressableButton = ({ buttonName, navLink }) => {

@@ -6,7 +6,7 @@ export const PutFunctions = () => {
   };
 
   fetch(url, {
-    method: "PUT", // Assuming you want to update the state using a PUT request
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
