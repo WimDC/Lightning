@@ -6,11 +6,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import tw from "twrnc";
 import {
   NAV_HOME,
+  NAV_LOGIN,
   NAV_ROOMS_LIST,
   NAV_ROOM_DETAIL,
 } from "./navigation_constants";
 import { RoomListScreen } from "./screens/RoomListScreen";
 import { RoomDetailScreen } from "./screens/RoomDetailScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +25,7 @@ export function ProvidedApp() {
   return (
     <>
       <Stack.Navigator screenOptions={screenOptions}>
+        <Stack.Screen name={NAV_LOGIN} component={LoginScreen} />
         <Stack.Screen name={NAV_HOME} component={HomeScreen} />
         <Stack.Screen name={NAV_ROOMS_LIST} component={RoomListScreen} />
         <Stack.Screen name={NAV_ROOM_DETAIL} component={RoomDetailScreen} />
