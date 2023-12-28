@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Pressable,
@@ -7,18 +7,46 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../Firebase";
+import { NAV_HOME } from "../navigation_constants";
+import { useNavigation } from "@react-navigation/native";
 
 export const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.replace(NAV_HOME);
+        const uid = user.uid;
+      }
+    });
+    return unsubscribe;
+  });
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log(user.email);
+        console.log("Registered with Email: ", user.email);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Logged in with Email: ", user.email);
       })
       .catch((error) => {
         alert(error.message);
@@ -43,7 +71,7 @@ export const LoginScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Pressable onPress={() => {}} style={styles.button}>
+        <Pressable onPress={handleLogin} style={styles.button}>
           <Text style={styles.buttonText}>Login</Text>
         </Pressable>
         <Pressable
