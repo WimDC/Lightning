@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ImageBackground,
   KeyboardAvoidingView,
   Pressable,
   StyleSheet,
@@ -54,34 +55,42 @@ export const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Pressable onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </Pressable>
-        <Pressable
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </Pressable>
-      </View>
-    </KeyboardAvoidingView>
+    <ImageBackground
+      source={require("../images/sunnybeach.jpg")}
+      style={styles.container}
+    >
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.welcomeText}>Welcome to Lightning!</Text>
+            <TextInput
+              placeholder="Email"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Password"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              style={styles.input}
+              secureTextEntry
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Pressable onPress={handleLogin} style={styles.button}>
+              <Text style={styles.buttonText}>Login</Text>
+            </Pressable>
+            <Pressable
+              onPress={handleSignUp}
+              style={[styles.button, styles.buttonOutline]}
+            >
+              <Text style={styles.buttonOutlineText}>Register</Text>
+            </Pressable>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
@@ -108,7 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   button: {
-    backgroundColor: "#0782F9",
+    backgroundColor: "#eeee00",
     width: "100%",
     padding: 15,
     borderRadius: 10,
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
   buttonOutline: {
     backgroundColor: "white",
     marginTop: 5,
-    borderColor: "#0782F9",
+    borderColor: "#eeee00",
     borderWidth: 2,
   },
   buttonText: {
@@ -126,9 +135,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: "#0782F9",
+    color: "#eeee00",
     fontWeight: "700",
     fontSize: 16,
+  },
+  welcomeText: {
+    color: "yellow",
+    textDecorationLine: "underline",
+    fontStyle: "italic",
+    textDecorationColor: "orange",
+    textDecorationStyle: "double",
+    fontWeight: "800",
+    fontSize: 45,
+    textShadowColor: "black", // Outline color
+    textShadowOffset: { width: 1, height: 1 }, // Outline offset
+    textShadowRadius: 10, // Outline radius
+    marginBottom: 50,
   },
 });
 
