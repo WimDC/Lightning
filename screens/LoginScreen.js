@@ -108,9 +108,9 @@ const styles = StyleSheet.create({
     textDecorationStyle: "double",
     fontWeight: "800",
     fontSize: 45,
-    textShadowColor: "black", // Outline color
-    textShadowOffset: { width: 1, height: 1 }, // Outline offset
-    textShadowRadius: 10, // Outline radius
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10,
     marginBottom: 50,
   },
   inputContainer: {
