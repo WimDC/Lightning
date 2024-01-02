@@ -100,6 +100,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  welcomeText: {
+    color: "yellow",
+    textDecorationLine: "underline",
+    fontStyle: "italic",
+    textDecorationColor: "orange",
+    textDecorationStyle: "double",
+    fontWeight: "800",
+    fontSize: 45,
+    textShadowColor: "black", // Outline color
+    textShadowOffset: { width: 1, height: 1 }, // Outline offset
+    textShadowRadius: 10, // Outline radius
+    marginBottom: 50,
+  },
   inputContainer: {
     width: "80%",
   },
@@ -138,19 +151,6 @@ const styles = StyleSheet.create({
     color: "#eeee00",
     fontWeight: "700",
     fontSize: 16,
-  },
-  welcomeText: {
-    color: "yellow",
-    textDecorationLine: "underline",
-    fontStyle: "italic",
-    textDecorationColor: "orange",
-    textDecorationStyle: "double",
-    fontWeight: "800",
-    fontSize: 45,
-    textShadowColor: "black", // Outline color
-    textShadowOffset: { width: 1, height: 1 }, // Outline offset
-    textShadowRadius: 10, // Outline radius
-    marginBottom: 50,
   },
 });
 

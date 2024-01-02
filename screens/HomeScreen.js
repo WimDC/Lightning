@@ -15,7 +15,7 @@ export const HomeScreen = () => {
     console.log(auth.currentUser?.email, " logged out");
     signOut(auth)
       .then(() => {
-        navigation.navigate(NAV_LOGIN);
+        navigation.replace(NAV_LOGIN);
       })
       .catch((error) => {
         alert(error.message);
